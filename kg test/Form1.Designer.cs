@@ -38,18 +38,20 @@
             // pictureBox1
             // 
             pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(222, 0);
+            pictureBox1.Location = new Point(254, 0);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(962, 761);
+            pictureBox1.Size = new Size(1099, 1015);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.Paint += pictureBox1_Paint;
             // 
             // drawBtn
             // 
-            drawBtn.Location = new Point(47, 357);
+            drawBtn.Location = new Point(60, 455);
+            drawBtn.Margin = new Padding(3, 4, 3, 4);
             drawBtn.Name = "drawBtn";
-            drawBtn.Size = new Size(75, 23);
+            drawBtn.Size = new Size(97, 31);
             drawBtn.TabIndex = 1;
             drawBtn.Text = "Малювати";
             drawBtn.UseVisualStyleBackColor = true;
@@ -61,17 +63,19 @@
             panel1.Controls.Add(drawBtn);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(222, 761);
+            panel1.Size = new Size(254, 1015);
             panel1.TabIndex = 2;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1184, 761);
+            ClientSize = new Size(1353, 1015);
             Controls.Add(pictureBox1);
             Controls.Add(panel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Лабораторна №1";
