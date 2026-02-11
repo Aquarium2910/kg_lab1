@@ -1,8 +1,4 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace kg_test
 {
     public class Hexagon

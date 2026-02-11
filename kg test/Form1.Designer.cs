@@ -31,6 +31,7 @@
             pictureBox1 = new PictureBox();
             drawBtn = new Button();
             panel1 = new Panel();
+            btnClear = new Button();
             button1 = new Button();
             textBox3 = new TextBox();
             textBox2 = new TextBox();
@@ -45,28 +46,27 @@
             // pictureBox1
             // 
             pictureBox1.Dock = DockStyle.Fill;
-            pictureBox1.Location = new Point(254, 0);
-            pictureBox1.Margin = new Padding(3, 4, 3, 4);
+            pictureBox1.Location = new Point(220, 0);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(1099, 1015);
+            pictureBox1.Size = new Size(800, 800);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.Paint += pictureBox1_Paint;
             // 
             // drawBtn
             // 
-            drawBtn.Location = new Point(77, 478);
-            drawBtn.Margin = new Padding(3, 4, 3, 4);
+            drawBtn.Location = new Point(12, 250);
             drawBtn.Name = "drawBtn";
-            drawBtn.Size = new Size(97, 31);
+            drawBtn.Size = new Size(85, 23);
             drawBtn.TabIndex = 1;
-            drawBtn.Text = "Малювати";
+            drawBtn.Text = "Draw";
             drawBtn.UseVisualStyleBackColor = true;
             drawBtn.Click += drawBtn_Click;
             // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlLight;
+            panel1.Controls.Add(btnClear);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox3);
             panel1.Controls.Add(textBox2);
@@ -77,17 +77,27 @@
             panel1.Controls.Add(drawBtn);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(254, 1015);
+            panel1.Size = new Size(220, 800);
             panel1.TabIndex = 2;
+            // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(114, 250);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(75, 23);
+            btnClear.TabIndex = 3;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // button1
             // 
             button1.BackColor = Color.Khaki;
-            button1.Location = new Point(130, 96);
+            button1.Location = new Point(114, 72);
+            button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
-            button1.Size = new Size(105, 38);
+            button1.Size = new Size(92, 28);
             button1.TabIndex = 8;
             button1.Text = "Add";
             button1.UseVisualStyleBackColor = false;
@@ -95,60 +105,62 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(130, 43);
+            textBox3.Location = new Point(114, 32);
+            textBox3.Margin = new Padding(3, 2, 3, 2);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(68, 27);
+            textBox3.Size = new Size(60, 23);
             textBox3.TabIndex = 7;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(23, 43);
+            textBox2.Location = new Point(20, 32);
+            textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(68, 27);
+            textBox2.Size = new Size(60, 23);
             textBox2.TabIndex = 6;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(130, 20);
+            label3.Location = new Point(114, 15);
             label3.Name = "label3";
-            label3.Size = new Size(67, 20);
+            label3.Size = new Size(55, 15);
             label3.TabIndex = 5;
             label3.Text = "Center Y:";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(23, 20);
+            label2.Location = new Point(20, 15);
             label2.Name = "label2";
-            label2.Size = new Size(68, 20);
+            label2.Size = new Size(55, 15);
             label2.TabIndex = 4;
             label2.Text = "Center X:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 84);
+            label1.Location = new Point(20, 63);
             label1.Name = "label1";
-            label1.Size = new Size(56, 20);
+            label1.Size = new Size(45, 15);
             label1.TabIndex = 3;
             label1.Text = "Radius:";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(23, 107);
+            textBox1.Location = new Point(20, 80);
+            textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(79, 27);
+            textBox1.Size = new Size(70, 23);
             textBox1.TabIndex = 2;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1353, 1015);
+            ClientSize = new Size(1020, 800);
             Controls.Add(pictureBox1);
             Controls.Add(panel1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Лабораторна №1";
@@ -171,5 +183,6 @@
         private TextBox textBox3;
         private TextBox textBox2;
         private Label label3;
+        private Button btnClear;
     }
 }
