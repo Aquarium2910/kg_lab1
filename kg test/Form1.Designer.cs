@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             pictureBox1 = new PictureBox();
-            drawBtn = new Button();
             panel1 = new Panel();
+            label5 = new Label();
+            label4 = new Label();
+            btnFillColor = new Button();
+            btnLineColor = new Button();
             btnClear = new Button();
             button1 = new Button();
             textBox3 = new TextBox();
@@ -39,6 +42,7 @@
             label2 = new Label();
             label1 = new Label();
             textBox1 = new TextBox();
+            colorDialog1 = new ColorDialog();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -53,19 +57,13 @@
             pictureBox1.TabStop = false;
             pictureBox1.Paint += pictureBox1_Paint;
             // 
-            // drawBtn
-            // 
-            drawBtn.Location = new Point(12, 250);
-            drawBtn.Name = "drawBtn";
-            drawBtn.Size = new Size(85, 23);
-            drawBtn.TabIndex = 1;
-            drawBtn.Text = "Draw";
-            drawBtn.UseVisualStyleBackColor = true;
-            drawBtn.Click += drawBtn_Click;
-            // 
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlLight;
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(label4);
+            panel1.Controls.Add(btnFillColor);
+            panel1.Controls.Add(btnLineColor);
             panel1.Controls.Add(btnClear);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(textBox3);
@@ -74,16 +72,53 @@
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(drawBtn);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(220, 800);
             panel1.TabIndex = 2;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(112, 287);
+            label5.Name = "label5";
+            label5.Size = new Size(55, 15);
+            label5.TabIndex = 12;
+            label5.Text = "Fill color:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(16, 287);
+            label4.Name = "label4";
+            label4.Size = new Size(62, 15);
+            label4.TabIndex = 11;
+            label4.Text = "Line color:";
+            // 
+            // btnFillColor
+            // 
+            btnFillColor.BackColor = Color.Cyan;
+            btnFillColor.Location = new Point(112, 305);
+            btnFillColor.Name = "btnFillColor";
+            btnFillColor.Size = new Size(60, 42);
+            btnFillColor.TabIndex = 10;
+            btnFillColor.UseVisualStyleBackColor = false;
+            btnFillColor.Click += btnFillColor_Click;
+            // 
+            // btnLineColor
+            // 
+            btnLineColor.BackColor = Color.Blue;
+            btnLineColor.Location = new Point(16, 305);
+            btnLineColor.Name = "btnLineColor";
+            btnLineColor.Size = new Size(62, 42);
+            btnLineColor.TabIndex = 9;
+            btnLineColor.UseVisualStyleBackColor = false;
+            btnLineColor.Click += btnLineColor_Click;
+            // 
             // btnClear
             // 
-            btnClear.Location = new Point(114, 250);
+            btnClear.Location = new Point(57, 448);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(75, 23);
             btnClear.TabIndex = 3;
@@ -94,7 +129,7 @@
             // button1
             // 
             button1.BackColor = Color.Khaki;
-            button1.Location = new Point(114, 72);
+            button1.Location = new Point(112, 221);
             button1.Margin = new Padding(3, 2, 3, 2);
             button1.Name = "button1";
             button1.Size = new Size(92, 28);
@@ -105,7 +140,7 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(114, 32);
+            textBox3.Location = new Point(112, 181);
             textBox3.Margin = new Padding(3, 2, 3, 2);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(60, 23);
@@ -113,7 +148,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(20, 32);
+            textBox2.Location = new Point(18, 181);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(60, 23);
@@ -122,7 +157,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(114, 15);
+            label3.Location = new Point(112, 164);
             label3.Name = "label3";
             label3.Size = new Size(55, 15);
             label3.TabIndex = 5;
@@ -131,7 +166,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(20, 15);
+            label2.Location = new Point(18, 164);
             label2.Name = "label2";
             label2.Size = new Size(55, 15);
             label2.TabIndex = 4;
@@ -140,7 +175,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 63);
+            label1.Location = new Point(18, 212);
             label1.Name = "label1";
             label1.Size = new Size(45, 15);
             label1.TabIndex = 3;
@@ -148,7 +183,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(20, 80);
+            textBox1.Location = new Point(18, 229);
             textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(70, 23);
@@ -174,7 +209,6 @@
         #endregion
 
         private PictureBox pictureBox1;
-        private Button drawBtn;
         private Panel panel1;
         private TextBox textBox1;
         private Label label2;
@@ -184,5 +218,10 @@
         private TextBox textBox2;
         private Label label3;
         private Button btnClear;
+        private ColorDialog colorDialog1;
+        private Button btnLineColor;
+        private Button btnFillColor;
+        private Label label5;
+        private Label label4;
     }
 }

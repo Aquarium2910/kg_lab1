@@ -57,13 +57,16 @@ namespace kg_test
                 double y = double.Parse(textBox3.Text);
                 double r = double.Parse(textBox1.Text);
 
+                Color lColor = btnLineColor.BackColor;
+                Color fColor = btnFillColor.BackColor;
+
                 if (r <= 0)
                 {
                     MessageBox.Show("Радіус має бути більше нуля!", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                Hexagon newHex = new Hexagon(x, y, r, Color.Blue);
+                Hexagon newHex = new Hexagon(x, y, r, lColor, fColor);
 
                 hexagons.Add(newHex);
 
@@ -84,21 +87,32 @@ namespace kg_test
             }
         }
 
-        private void drawBtn_Click(object sender, EventArgs e)
-        {
-            pictureBox1.Invalidate();
-        }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             hexagons.Clear();
             UpdateBounds();
             pictureBox1.Invalidate();
         }
-        
+
         private void Form1_Resize(object sender, EventArgs e)
         {
             pictureBox1.Invalidate();
+        }
+
+        private void btnLineColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                btnLineColor.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void btnFillColor_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                btnFillColor.BackColor = colorDialog1.Color;
+            }
         }
 
 
@@ -107,10 +121,10 @@ namespace kg_test
         {
             var points = GetPoints(hex);
 
-            Pen mainPen = new Pen(hex.Color, 2);              // Товста ручка для контуру
+            Pen mainPen = new Pen(hex.LineColor, 2);              // Товста ручка для контуру
             Pen thinPen = new Pen(Color.Gray, 1);             // Тонка для допоміжних ліній
             thinPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash; // Пунктир
-            Brush vertexBrush = new SolidBrush(hex.Color);    // Для точок вершин
+            Brush vertexBrush = new SolidBrush(hex.LineColor);    // Для точок вершин
             Brush centerBrush = Brushes.Red;                  // Для центру
 
 
@@ -121,7 +135,7 @@ namespace kg_test
             g.FillEllipse(centerBrush, centerX - 3, centerY - 3, 6, 6);
 
 
-            using (SolidBrush fillBrush = new SolidBrush(Color.FromArgb(50, hex.Color)))
+            using (SolidBrush fillBrush = new SolidBrush(Color.FromArgb(50, hex.FillColor)))
             {
                 g.FillPolygon(fillBrush, points);
             }
@@ -151,7 +165,7 @@ namespace kg_test
 
             return points;
         }
-        
+
         private int XtoI(double x)
         {
             int W = pictureBox1.Width - 2 * margin;

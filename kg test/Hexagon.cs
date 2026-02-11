@@ -1,16 +1,18 @@
-﻿
-namespace kg_test
+﻿public class Hexagon
 {
-    public class Hexagon
-    {
-        public double X { get; set; }      
-        public double Y { get; set; }      
-        public double Radius { get; set; } 
-        public Color Color { get; set; }   
+    public double X { get; set; }
+    public double Y { get; set; }
+    public double Radius { get; set; }
 
-        public Hexagon(double x, double y, double r, Color c)
-        {
-            X = x; Y = y; Radius = r; Color = c;
-        }
+    public Color LineColor { get; set; }
+    public Color FillColor { get; set; }
+
+    public Hexagon(double x, double y, double r, Color line, Color fill)
+    {
+        X = x;
+        Y = y;
+        Radius = r;
+        LineColor = line;
+        FillColor = fill;
     }
 }
