@@ -43,6 +43,7 @@
             label1 = new Label();
             textBox1 = new TextBox();
             colorDialog1 = new ColorDialog();
+            btnSave = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -60,6 +61,7 @@
             // panel1
             // 
             panel1.BackColor = SystemColors.ControlLight;
+            panel1.Controls.Add(btnSave);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(btnFillColor);
@@ -118,7 +120,7 @@
             // 
             // btnClear
             // 
-            btnClear.Location = new Point(57, 448);
+            btnClear.Location = new Point(59, 405);
             btnClear.Name = "btnClear";
             btnClear.Size = new Size(75, 23);
             btnClear.TabIndex = 3;
@@ -189,6 +191,16 @@
             textBox1.Size = new Size(70, 23);
             textBox1.TabIndex = 2;
             // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(59, 487);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(75, 23);
+            btnSave.TabIndex = 13;
+            btnSave.Text = "Save to file";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -223,5 +235,6 @@
         private Button btnFillColor;
         private Label label5;
         private Label label4;
+        private Button btnSave;
     }
 }

@@ -115,7 +115,46 @@ namespace kg_test
             }
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // 1. Налаштовуємо діалог збереження
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveDialog.Title = "Зберегти фігури";
+            saveDialog.FileName = "hexagons.txt"; // Ім'я за замовчуванням
 
+            // 2. Якщо користувач вибрав файл і натиснув ОК
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // Використовуємо StreamWriter для запису тексту
+                    using (StreamWriter writer = new StreamWriter(saveDialog.FileName))
+                    {
+                        // Проходимо по всіх фігурах
+                        foreach (var hex in hexagons)
+                        {
+                            // Формуємо рядок: X;Y;R;LineColor_ARGB;FillColor_ARGB
+                            // Зберігаємо колір як число (ToArgb), щоб потім легко відновити
+                            string line = string.Format("{0};{1};{2};{3};{4}",
+                                hex.X,
+                                hex.Y,
+                                hex.Radius,
+                                hex.LineColor.ToArgb(), // Зберігаємо як унікальний код кольору
+                                hex.FillColor.ToArgb());
+
+                            writer.WriteLine(line);
+                        }
+                    }
+
+                    MessageBox.Show("Файл успішно збережено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Помилка при збереженні: " + ex.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
         private void DrawHexagonDetails(Graphics g, Hexagon hex)
         {
