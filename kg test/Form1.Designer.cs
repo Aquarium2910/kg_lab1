@@ -30,6 +30,7 @@
         {
             pictureBox1 = new PictureBox();
             panel1 = new Panel();
+            btnSave = new Button();
             label5 = new Label();
             label4 = new Label();
             btnFillColor = new Button();
@@ -43,14 +44,12 @@
             label1 = new Label();
             textBox1 = new TextBox();
             colorDialog1 = new ColorDialog();
-            btnSave = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
             // 
-            pictureBox1.Dock = DockStyle.Fill;
             pictureBox1.Location = new Point(220, 0);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(800, 800);
@@ -79,6 +78,16 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(220, 800);
             panel1.TabIndex = 2;
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(59, 487);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(75, 23);
+            btnSave.TabIndex = 13;
+            btnSave.Text = "Save to file";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // label5
             // 
@@ -190,16 +199,6 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(70, 23);
             textBox1.TabIndex = 2;
-            // 
-            // btnSave
-            // 
-            btnSave.Location = new Point(59, 487);
-            btnSave.Name = "btnSave";
-            btnSave.Size = new Size(75, 23);
-            btnSave.TabIndex = 13;
-            btnSave.Text = "Save to file";
-            btnSave.UseVisualStyleBackColor = true;
-            btnSave.Click += btnSave_Click;
             // 
             // Form1
             // 

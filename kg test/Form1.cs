@@ -22,26 +22,7 @@ namespace kg_test
             Graphics g = e.Graphics;
             g.Clear(Color.White);
 
-            Pen pen = new Pen(Color.Black, 2);
-            Font font = new Font("Arial", 10);
-            Brush brush = Brushes.Black;
-
-            int x0 = XtoI(0);
-            int y0 = YtoJ(0);
-
-            StringFormat formatX = new StringFormat();
-            formatX.Alignment = StringAlignment.Center;
-            formatX.LineAlignment = StringAlignment.Near;
-
-            StringFormat formatY = new StringFormat();
-            formatY.Alignment = StringAlignment.Far;
-            formatY.LineAlignment = StringAlignment.Center;
-
             DrawAxes(g);
-
-            DrawXSteps(g, pen, font, brush, y0, formatX);
-
-            DrawYSteps(g, pen, font, brush, x0, formatY);
 
             foreach (Hexagon hex in hexagons)
             {
@@ -351,24 +332,15 @@ namespace kg_test
         private void DrawAxes(Graphics g)
         {
             Pen axisPen = new Pen(Color.Black, 2);
-            Pen gridPen = new Pen(Color.LightGray, 1);
             Font font = new Font("Arial", 10);
             Brush textBrush = Brushes.Black;
 
             int x0 = XtoI(0);
             int y0 = YtoJ(0);
 
-            // --- МАЛЮЄМО ОСІ (ЛІНІЇ) ---
-            // Якщо нуль видно на екрані, малюємо осі там. Якщо ні - малюємо по краях або взагалі не малюємо.
-            // Для простоти малюємо лінії через весь екран, які проходять через (0,0)
-            g.DrawLine(axisPen, XtoI(minX), y0, XtoI(maxX), y0); // Вісь X
-            g.DrawLine(axisPen, x0, YtoJ(minY), x0, YtoJ(maxY)); // Вісь Y
+            g.DrawLine(axisPen, XtoI(minX), y0, XtoI(maxX), y0);
+            g.DrawLine(axisPen, x0, YtoJ(minY), x0, YtoJ(maxY));
 
-            // --- ОБЧИСЛЮЄМО КРОК ---
-            // Беремо ширину екрана в математичних одиницях
-            double step = CalculateStep(maxX - minX);
-
-            // Налаштування тексту (як ми робили раніше)
             StringFormat formatX = new StringFormat();
             formatX.Alignment = StringAlignment.Center;
             formatX.LineAlignment = StringAlignment.Near;
@@ -376,50 +348,13 @@ namespace kg_test
             StringFormat formatY = new StringFormat();
             formatY.Alignment = StringAlignment.Far;
             formatY.LineAlignment = StringAlignment.Center;
+            
+            DrawXSteps(g, axisPen, font, textBrush, y0, formatX);
+            DrawYSteps(g, axisPen, font, textBrush, x0, formatY);
 
-            // --- ЦИКЛ ПО X ---
-            // Починаємо не з minX, а з першого числа, кратного step
-            double startX = Math.Ceiling(minX / step) * step;
 
-            for (double val = startX; val <= maxX; val += step)
-            {
-                // Не малюємо нуль двічі (або малюємо, але акуратно) - тут пропустимо
-                if (Math.Abs(val) < step / 10.0) continue;
-
-                int screenX = XtoI(val);
-
-                // Засічка
-                g.DrawLine(axisPen, screenX, y0 - 5, screenX, y0 + 5);
-
-                // Сітка (опціонально, тонка сіра лінія)
-                // g.DrawLine(gridPen, screenX, YtoJ(minY), screenX, YtoJ(maxY));
-
-                // Цифра (округляємо, щоб не було 1.0000001)
-                g.DrawString(Math.Round(val, 2).ToString(), font, textBrush, screenX, y0 + 8, formatX);
-            }
-
-            // --- ЦИКЛ ПО Y ---
-            double startY = Math.Ceiling(minY / step) * step;
-
-            for (double val = startY; val <= maxY; val += step)
-            {
-                if (Math.Abs(val) < step / 10.0) continue;
-
-                int screenY = YtoJ(val);
-
-                // Засічка
-                g.DrawLine(axisPen, x0 - 5, screenY, x0 + 5, screenY);
-
-                // Сітка (опціонально)
-                // g.DrawLine(gridPen, XtoI(minX), screenY, XtoI(maxX), screenY);
-
-                // Цифра
-                g.DrawString(Math.Round(val, 2).ToString(), font, textBrush, x0 - 8, screenY, formatY);
-            }
-
-            // Нуль і підписи осей
             g.DrawString("0", font, textBrush, x0 - 15, y0 + 5);
-            g.DrawString("X", new Font("Arial", 12, FontStyle.Bold), textBrush, XtoI(maxX) - 20, y0 - 25);
+            g.DrawString("X", new Font("Arial", 12, FontStyle.Bold), textBrush, XtoI(maxX) - 15, y0 - 25);
             g.DrawString("Y", new Font("Arial", 12, FontStyle.Bold), textBrush, x0 + 5, YtoJ(maxY));
         }
     }
