@@ -98,30 +98,24 @@ namespace kg_test
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // 1. Налаштовуємо діалог збереження
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             saveDialog.Title = "Зберегти фігури";
-            saveDialog.FileName = "hexagons.txt"; // Ім'я за замовчуванням
+            saveDialog.FileName = "hexagons.txt";
 
-            // 2. Якщо користувач вибрав файл і натиснув ОК
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // Використовуємо StreamWriter для запису тексту
                     using (StreamWriter writer = new StreamWriter(saveDialog.FileName))
                     {
-                        // Проходимо по всіх фігурах
                         foreach (var hex in hexagons)
                         {
-                            // Формуємо рядок: X;Y;R;LineColor_ARGB;FillColor_ARGB
-                            // Зберігаємо колір як число (ToArgb), щоб потім легко відновити
                             string line = string.Format("{0};{1};{2};{3};{4}",
                                 hex.X,
                                 hex.Y,
                                 hex.Radius,
-                                hex.LineColor.ToArgb(), // Зберігаємо як унікальний код кольору
+                                hex.LineColor.ToArgb(),
                                 hex.FillColor.ToArgb());
 
                             writer.WriteLine(line);
@@ -151,7 +145,7 @@ namespace kg_test
             int centerX = XtoI(hex.X);
             int centerY = YtoJ(hex.Y);
 
-
+            // Центральна точка
             g.FillEllipse(centerBrush, centerX - 3, centerY - 3, 6, 6);
 
 
@@ -200,110 +194,80 @@ namespace kg_test
             return (pictureBox1.Height - margin) - (int)((y - minY) * (H / (maxY - minY)));
         }
 
-        private void DrawYSteps(Graphics g, Pen pen, Font font, Brush brush, int x0, StringFormat formatY)
+        private void DrawYSteps(Graphics g, Pen pen, Font font, Brush brush, int x0, StringFormat formatY, double step)
         {
-            for (int i = (int)Math.Ceiling(minY); i <= (int)Math.Floor(maxY); i++)
-            {
-                if (i == 0) continue;
+            double start = Math.Ceiling(minY / step) * step;
 
-                int screenY = YtoJ(i);
+            for (double val = start; val <= maxY; val += step)
+            {
+                if (Math.Abs(val) < step / 10.0) continue;
+
+                int screenY = YtoJ(val);
 
                 g.DrawLine(pen, x0 - 5, screenY, x0 + 5, screenY);
-
-                g.DrawString(i.ToString(), font, brush, x0 - 8, screenY, formatY);
+                g.DrawString(val.ToString("0.###"), font, brush, x0 - 8, screenY, formatY);
             }
         }
 
-        private void DrawXSteps(Graphics g, Pen pen, Font font, Brush brush, int y0, StringFormat formatX)
+        // Додали аргумент double step
+        private void DrawXSteps(Graphics g, Pen pen, Font font, Brush brush, int y0, StringFormat formatX, double step)
         {
-            for (int i = (int)Math.Ceiling(minX); i <= (int)Math.Floor(maxX); i++)
+            // Починаємо не з minX, а з першого числа, кратного step
+            // Наприклад, якщо minX = -12, а step = 5, то start = -10.
+            double start = Math.Ceiling(minX / step) * step;
+
+            for (double val = start; val <= maxX; val += step)
             {
-                if (i == 0) continue;
+                // Пропускаємо нуль, щоб не накладався на вісь Y (опціонально)
+                if (Math.Abs(val) < step / 10.0) continue;
 
-                int screenX = XtoI(i);
+                int screenX = XtoI(val);
 
+                // Малюємо засічку
                 g.DrawLine(pen, screenX, y0 - 5, screenX, y0 + 5);
 
-                g.DrawString(i.ToString(), font, brush, screenX, y0 + 8, formatX);
+                // Малюємо число. "0.###" прибере зайві нулі після коми
+                g.DrawString(val.ToString("0.###"), font, brush, screenX, y0 + 8, formatX);
             }
         }
 
         private bool NeedsBoundsUpdate()
         {
-            // Якщо список порожній (натиснули Clear) — треба оновити (скинути) межі
-            if (hexagons.Count == 0) return true;
-
-            // 1. Знаходимо межі даних (з врахуванням нуля)
-            double dataMinX = 0;
-            double dataMaxX = 0;
-            double dataMinY = 0;
-            double dataMaxY = 0;
+            if (hexagons.Count == 0) return false;
 
             foreach (var h in hexagons)
             {
-                if (h.X - h.Radius < dataMinX) dataMinX = h.X - h.Radius;
-                if (h.X + h.Radius > dataMaxX) dataMaxX = h.X + h.Radius;
-                if (h.Y - h.Radius < dataMinY) dataMinY = h.Y - h.Radius;
-                if (h.Y + h.Radius > dataMaxY) dataMaxY = h.Y + h.Radius;
+                if (h.X + h.Radius > maxX || h.X - h.Radius < minX ||
+                    h.Y + h.Radius > maxY || h.Y - h.Radius < minY)
+                {
+                    return true;
+                }
             }
-
-            // 2. Перевірка: Чи вийшли ми за межі поточного екрана?
-            // (Поточні межі екрана: minX, maxX, minY, maxY)
-
-            // Додамо маленький запас (epsilon), щоб не реагувати на мікро-похибки
-            double buffer = 0.1;
-
-            bool outLeft = dataMinX < minX + buffer;
-            bool outRight = dataMaxX > maxX - buffer;
-            bool outBottom = dataMinY < minY + buffer;
-            bool outTop = dataMaxY > maxY - buffer;
-
-            // Якщо хоча б з одного боку тісно — повертаємо true
-            return outLeft || outRight || outBottom || outTop;
+            return false;
         }
 
         private void UpdateBounds()
         {
-            if (hexagons.Count == 0)
+            double maxExtent = 10.0;
+
+            if (hexagons.Count > 0)
             {
-                minX = -10; maxX = 10;
-                minY = -10; maxY = 10;
-                return;
+                foreach (var h in hexagons)
+                {
+                    double distExploreX = Math.Abs(h.X) + h.Radius;
+                    double distExploreY = Math.Abs(h.Y) + h.Radius;
+
+                    if (distExploreX > maxExtent) maxExtent = distExploreX;
+                    if (distExploreY > maxExtent) maxExtent = distExploreY;
+                }
             }
 
-            // 1. Рахуємо нові межі на основі фігур
-            double dataMinX = 0; double dataMaxX = 0;
-            double dataMinY = 0; double dataMaxY = 0;
+            maxExtent *= 1.1;
 
-            foreach (var h in hexagons)
-            {
-                if (h.X - h.Radius < dataMinX) dataMinX = h.X - h.Radius;
-                if (h.X + h.Radius > dataMaxX) dataMaxX = h.X + h.Radius;
-                if (h.Y - h.Radius < dataMinY) dataMinY = h.Y - h.Radius;
-                if (h.Y + h.Radius > dataMaxY) dataMaxY = h.Y + h.Radius;
-            }
-
-            double width = dataMaxX - dataMinX;
-            double height = dataMaxY - dataMinY;
-
-            double centerX = (dataMinX + dataMaxX) / 2.0;
-            double centerY = (dataMinY + dataMaxY) / 2.0;
-
-            // 2. Робимо квадратну область
-            double maxDimension = Math.Max(width, height);
-
-            // ВАЖЛИВО: Ставимо мінімальний розмір екрана (наприклад, 20 одиниць).
-            // Це гарантує, що навіть якщо це перша фігура радіусом 1,
-            // ми не зробимо Zoom-In, а покажемо нормальний масштаб (-10..10).
-            if (maxDimension < 20) maxDimension = 20;
-
-            // 3. Додаємо 10% відступу
-            double halfSide = (maxDimension * 1.1) / 2.0;
-
-            minX = centerX - halfSide;
-            maxX = centerX + halfSide;
-            minY = centerY - halfSide;
-            maxY = centerY + halfSide;
+            minX = -maxExtent;
+            maxX = maxExtent;
+            minY = -maxExtent;
+            maxY = maxExtent;
         }
 
         // Метод для розрахунку красивого кроку сітки
@@ -311,20 +275,20 @@ namespace kg_test
         {
             if (range == 0) return 1;
 
-            // Ми хочемо бачити приблизно 10-15 поділок на екрані
             double targetStep = range / 10.0;
 
-            // Знаходимо степінь десятки (наприклад, для 45 це 10, для 0.45 це 0.1)
+            // Знаходимо степінь двійки/десятки (порядок числа)
+            // Наприклад, для 45 це буде 10, для 0.45 це буде 0.1
             double magnitude = Math.Pow(10, Math.Floor(Math.Log10(targetStep)));
 
             // Нормалізуємо крок до діапазону [1...10)
             double normalizedStep = targetStep / magnitude;
 
-            // Підбираємо найближчий "красивий" крок
+            // Вибираємо красивий крок: 1, 2 або 5
             double step;
-            if (normalizedStep < 2) step = 1;       // Крок буде типу 1, 10, 100
-            else if (normalizedStep < 5) step = 2;  // Крок буде типу 2, 20, 200
-            else step = 5;                          // Крок буде типу 5, 50, 500
+            if (normalizedStep < 2) step = 1;
+            else if (normalizedStep < 5) step = 2;
+            else step = 5;
 
             return step * magnitude;
         }
@@ -348,12 +312,15 @@ namespace kg_test
             StringFormat formatY = new StringFormat();
             formatY.Alignment = StringAlignment.Far;
             formatY.LineAlignment = StringAlignment.Center;
-            
-            DrawXSteps(g, axisPen, font, textBrush, y0, formatX);
-            DrawYSteps(g, axisPen, font, textBrush, x0, formatY);
+
+            var stepX = CalculateStep(maxX - minX);
+            var stepY = CalculateStep(maxY - minY);
+
+            DrawXSteps(g, axisPen, font, textBrush, y0, formatX, stepX);
+            DrawYSteps(g, axisPen, font, textBrush, x0, formatY, stepY);
 
 
-            g.DrawString("0", font, textBrush, x0 - 15, y0 + 5);
+            g.DrawString("0", font, textBrush, x0 + 2, y0 + 8);
             g.DrawString("X", new Font("Arial", 12, FontStyle.Bold), textBrush, XtoI(maxX) - 15, y0 - 25);
             g.DrawString("Y", new Font("Arial", 12, FontStyle.Bold), textBrush, x0 + 5, YtoJ(maxY));
         }
