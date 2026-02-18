@@ -1,4 +1,4 @@
-namespace kg_test
+ï»¿namespace kg_test
 {
     public partial class Form1 : Form
     {
@@ -34,16 +34,16 @@ namespace kg_test
         {
             try
             {
-                double x = double.Parse(textBox2.Text);
-                double y = double.Parse(textBox3.Text);
-                double r = double.Parse(textBox1.Text);
+                double x = ParseDouble(textBox2.Text);
+                double y = ParseDouble(textBox3.Text);
+                double r = ParseDouble(textBox1.Text);
 
                 Color lColor = btnLineColor.BackColor;
                 Color fColor = btnFillColor.BackColor;
 
                 if (r <= 0)
                 {
-                    MessageBox.Show("Ðàä³óñ ìàº áóòè á³ëüøå íóëÿ!", "Ïîìèëêà", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Ð Ð°Ð´Ñ–ÑƒÑ Ð¼Ð°Ñ” Ð±ÑƒÑ‚Ð¸ Ð±Ñ–Ð»ÑŒÑˆÐµ Ð½ÑƒÐ»Ñ!", "ÐŸÐ¾Ð¼Ð¸Ð»ÐºÐ°", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -64,7 +64,7 @@ namespace kg_test
             }
             catch (FormatException)
             {
-                MessageBox.Show("Áóäü ëàñêà, ââåä³òü êîðåêòí³ ÷èñëîâ³ çíà÷åííÿ!", "Ïîìèëêà ââîäó", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ð‘ÑƒÐ´ÑŒ Ð»Ð°ÑÐºÐ°, Ð²Ð²ÐµÐ´Ñ–Ñ‚ÑŒ ÐºÐ¾Ñ€ÐµÐºÑ‚Ð½Ñ– Ñ‡Ð¸ÑÐ»Ð¾Ð²Ñ– Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ!", "ÐŸÐ¾Ð¼Ð¸Ð»ÐºÐ° Ð²Ð²Ð¾Ð´Ñƒ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -100,7 +100,7 @@ namespace kg_test
         {
             SaveFileDialog saveDialog = new SaveFileDialog();
             saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveDialog.Title = "Çáåðåãòè ô³ãóðè";
+            saveDialog.Title = "Ð—Ð±ÐµÑ€ÐµÐ³Ñ‚Ð¸ Ñ„Ñ–Ð³ÑƒÑ€Ð¸";
             saveDialog.FileName = "hexagons.txt";
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
@@ -122,11 +122,11 @@ namespace kg_test
                         }
                     }
 
-                    MessageBox.Show("Ôàéë óñï³øíî çáåðåæåíî!", "Óñï³õ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Ð¤Ð°Ð¹Ð» ÑƒÑÐ¿Ñ–ÑˆÐ½Ð¾ Ð·Ð±ÐµÑ€ÐµÐ¶ÐµÐ½Ð¾!", "Ð£ÑÐ¿Ñ–Ñ…", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Ïîìèëêà ïðè çáåðåæåíí³: " + ex.Message, "Ïîìèëêà", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("ÐŸÐ¾Ð¼Ð¸Ð»ÐºÐ° Ð¿Ñ€Ð¸ Ð·Ð±ÐµÑ€ÐµÐ¶ÐµÐ½Ð½Ñ–: " + ex.Message, "ÐŸÐ¾Ð¼Ð¸Ð»ÐºÐ°", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -135,17 +135,17 @@ namespace kg_test
         {
             var points = GetPoints(hex);
 
-            Pen mainPen = new Pen(hex.LineColor, 2);              // Òîâñòà ðó÷êà äëÿ êîíòóðó
-            Pen thinPen = new Pen(Color.Gray, 1);             // Òîíêà äëÿ äîïîì³æíèõ ë³í³é
-            thinPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash; // Ïóíêòèð
-            Brush vertexBrush = new SolidBrush(hex.LineColor);    // Äëÿ òî÷îê âåðøèí
-            Brush centerBrush = Brushes.Red;                  // Äëÿ öåíòðó
+            Pen mainPen = new Pen(hex.LineColor, 2);              // Ð¢Ð¾Ð²ÑÑ‚Ð° Ñ€ÑƒÑ‡ÐºÐ° Ð´Ð»Ñ ÐºÐ¾Ð½Ñ‚ÑƒÑ€Ñƒ
+            Pen thinPen = new Pen(Color.Gray, 1);             // Ð¢Ð¾Ð½ÐºÐ° Ð´Ð»Ñ Ð´Ð¾Ð¿Ð¾Ð¼Ñ–Ð¶Ð½Ð¸Ñ… Ð»Ñ–Ð½Ñ–Ð¹
+            thinPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash; // ÐŸÑƒÐ½ÐºÑ‚Ð¸Ñ€
+            Brush vertexBrush = new SolidBrush(hex.LineColor);    // Ð”Ð»Ñ Ñ‚Ð¾Ñ‡Ð¾Ðº Ð²ÐµÑ€ÑˆÐ¸Ð½
+            Brush centerBrush = Brushes.Red;                  // Ð”Ð»Ñ Ñ†ÐµÐ½Ñ‚Ñ€Ñƒ
 
 
             int centerX = XtoI(hex.X);
             int centerY = YtoJ(hex.Y);
 
-            // Öåíòðàëüíà òî÷êà
+            // Ð¦ÐµÐ½Ñ‚Ñ€Ð°Ð»ÑŒÐ½Ð° Ñ‚Ð¾Ñ‡ÐºÐ°
             g.FillEllipse(centerBrush, centerX - 3, centerY - 3, 6, 6);
 
 
@@ -209,24 +209,18 @@ namespace kg_test
             }
         }
 
-        // Äîäàëè àðãóìåíò double step
         private void DrawXSteps(Graphics g, Pen pen, Font font, Brush brush, int y0, StringFormat formatX, double step)
         {
-            // Ïî÷èíàºìî íå ç minX, à ç ïåðøîãî ÷èñëà, êðàòíîãî step
-            // Íàïðèêëàä, ÿêùî minX = -12, à step = 5, òî start = -10.
             double start = Math.Ceiling(minX / step) * step;
 
             for (double val = start; val <= maxX; val += step)
             {
-                // Ïðîïóñêàºìî íóëü, ùîá íå íàêëàäàâñÿ íà â³ñü Y (îïö³îíàëüíî)
                 if (Math.Abs(val) < step / 10.0) continue;
 
                 int screenX = XtoI(val);
 
-                // Ìàëþºìî çàñ³÷êó
                 g.DrawLine(pen, screenX, y0 - 5, screenX, y0 + 5);
 
-                // Ìàëþºìî ÷èñëî. "0.###" ïðèáåðå çàéâ³ íóë³ ï³ñëÿ êîìè
                 g.DrawString(val.ToString("0.###"), font, brush, screenX, y0 + 8, formatX);
             }
         }
@@ -270,21 +264,21 @@ namespace kg_test
             maxY = maxExtent;
         }
 
-        // Ìåòîä äëÿ ðîçðàõóíêó êðàñèâîãî êðîêó ñ³òêè
+        // ÐœÐµÑ‚Ð¾Ð´ Ð´Ð»Ñ Ñ€Ð¾Ð·Ñ€Ð°Ñ…ÑƒÐ½ÐºÑƒ ÐºÑ€Ð°ÑÐ¸Ð²Ð¾Ð³Ð¾ ÐºÑ€Ð¾ÐºÑƒ ÑÑ–Ñ‚ÐºÐ¸
         private double CalculateStep(double range)
         {
             if (range == 0) return 1;
 
             double targetStep = range / 10.0;
 
-            // Çíàõîäèìî ñòåï³íü äâ³éêè/äåñÿòêè (ïîðÿäîê ÷èñëà)
-            // Íàïðèêëàä, äëÿ 45 öå áóäå 10, äëÿ 0.45 öå áóäå 0.1
+            // Ð—Ð½Ð°Ñ…Ð¾Ð´Ð¸Ð¼Ð¾ ÑÑ‚ÐµÐ¿Ñ–Ð½ÑŒ Ð´Ð²Ñ–Ð¹ÐºÐ¸/Ð´ÐµÑÑÑ‚ÐºÐ¸ (Ð¿Ð¾Ñ€ÑÐ´Ð¾Ðº Ñ‡Ð¸ÑÐ»Ð°)
+            // ÐÐ°Ð¿Ñ€Ð¸ÐºÐ»Ð°Ð´, Ð´Ð»Ñ 45 Ñ†Ðµ Ð±ÑƒÐ´Ðµ 10, Ð´Ð»Ñ 0.45 Ñ†Ðµ Ð±ÑƒÐ´Ðµ 0.1
             double magnitude = Math.Pow(10, Math.Floor(Math.Log10(targetStep)));
 
-            // Íîðìàë³çóºìî êðîê äî ä³àïàçîíó [1...10)
+            // ÐÐ¾Ñ€Ð¼Ð°Ð»Ñ–Ð·ÑƒÑ”Ð¼Ð¾ ÐºÑ€Ð¾Ðº Ð´Ð¾ Ð´Ñ–Ð°Ð¿Ð°Ð·Ð¾Ð½Ñƒ [1...10)
             double normalizedStep = targetStep / magnitude;
 
-            // Âèáèðàºìî êðàñèâèé êðîê: 1, 2 àáî 5
+            // Ð’Ð¸Ð±Ð¸Ñ€Ð°Ñ”Ð¼Ð¾ ÐºÑ€Ð°ÑÐ¸Ð²Ð¸Ð¹ ÐºÑ€Ð¾Ðº: 1, 2 Ð°Ð±Ð¾ 5
             double step;
             if (normalizedStep < 2) step = 1;
             else if (normalizedStep < 5) step = 2;
@@ -323,6 +317,11 @@ namespace kg_test
             g.DrawString("0", font, textBrush, x0 + 2, y0 + 8);
             g.DrawString("X", new Font("Arial", 12, FontStyle.Bold), textBrush, XtoI(maxX) - 15, y0 - 25);
             g.DrawString("Y", new Font("Arial", 12, FontStyle.Bold), textBrush, x0 + 5, YtoJ(maxY));
+        }
+
+        private double ParseDouble(string val)
+        {
+            return double.Parse(val.Replace(",", "."), System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }
