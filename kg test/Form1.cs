@@ -264,21 +264,16 @@
             maxY = maxExtent;
         }
 
-        // Метод для розрахунку красивого кроку сітки
         private double CalculateStep(double range)
         {
             if (range == 0) return 1;
 
             double targetStep = range / 10.0;
 
-            // Знаходимо степінь двійки/десятки (порядок числа)
-            // Наприклад, для 45 це буде 10, для 0.45 це буде 0.1
             double magnitude = Math.Pow(10, Math.Floor(Math.Log10(targetStep)));
 
-            // Нормалізуємо крок до діапазону [1...10)
             double normalizedStep = targetStep / magnitude;
 
-            // Вибираємо красивий крок: 1, 2 або 5
             double step;
             if (normalizedStep < 2) step = 1;
             else if (normalizedStep < 5) step = 2;
